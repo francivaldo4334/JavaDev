@@ -224,7 +224,7 @@ public class JavaDev {
         String pathString1 = getPkgToPath(pkg);
         String localPath = pathString + "/" + pathString1;
         createPath(localPath);
-        createFile(localPath + "/", path.getFileName().toString());
+        createFile(localPath + "/", path.getFileName().toString(), pkg);
         createFileConfJson(pathString + "/", "", "1.0", path.getFileName().toString(), "console");
         createPath(pathString + "/bin");
     }
@@ -233,7 +233,7 @@ public class JavaDev {
         String pathString1 = getPkgToPath(pkg);
         String localPath = pathString + "/" + pathString1;
         createPath(localPath);
-        createFileApp(localPath + "/", "Main");
+        createFileApp(localPath + "/", "Main", pkg);
         createFileConfJson(pathString + "/", pkg, "1.0", "Main", "app");
         createPath(pathString + "/bin");
     }
@@ -336,7 +336,7 @@ public class JavaDev {
         }
     }
 
-    public static void createFile(String path, String name) throws IOException {
+    public static void createFile(String path, String name, String pkg) throws IOException {
         File myObj = new File(path + name + ".java");
         try {
             if (myObj.createNewFile()) {
@@ -348,6 +348,10 @@ public class JavaDev {
         }
         FileOutputStream fos = new FileOutputStream(myObj);
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+        if (pkg != "") {
+            bw.write("package " + pkg + "." + name + ";");
+            bw.newLine();
+        }
         bw.write("public class " + name + " {");
         bw.newLine();
         bw.write("  public static void main(String[] args){");
@@ -362,7 +366,7 @@ public class JavaDev {
 
     }
 
-    public static void createFileApp(String path, String name) throws IOException {
+    public static void createFileApp(String path, String name, String pkg) throws IOException {
         File myObj = new File(path + name + ".java");
         try {
             if (myObj.createNewFile()) {
@@ -374,6 +378,10 @@ public class JavaDev {
         }
         FileOutputStream fos = new FileOutputStream(myObj);
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+        if (pkg != "") {
+            bw.write("package " + pkg + "." + name + ";");
+            bw.newLine();
+        }
         bw.write("import javax.swing.JFrame;");
         bw.newLine();
         bw.write("public class " + name + " {");
